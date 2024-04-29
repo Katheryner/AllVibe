@@ -1,13 +1,10 @@
-package com.allvibe.all_vibe.entities;
+package com.allvibe.all_vibe.domain.entities;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,8 +24,10 @@ public class User {
   @Column(length = 40, nullable = false)
   private String password;
   @Column(nullable = false)
-  private Bolean isAdmin;
+  private Boolean isAdmin;
 
-  @OneToMany(mappedBy = "festival", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = false)
-  @OneToMany(mappedBy = "conference", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = false)
+  // @OneToMany(mappedBy = "festival", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = false)
+  private Festival festival;
+  // @OneToMany(mappedBy = "conference", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = false)
+  private Conference conference;
 }
