@@ -1,5 +1,7 @@
 package com.allvibe.all_vibe.domain.entities;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,6 +36,6 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    private EventParticipation eventParticipation;
+    private List<EventParticipation> eventParticipation;
 
 }
