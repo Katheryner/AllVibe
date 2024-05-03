@@ -1,6 +1,9 @@
 package com.allvibe.all_vibe.domain.entities;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import com.allvibe.all_vibe.util.enums.Status;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -16,24 +19,29 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity(name = "users")
+@Entity(name = "events")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 40, nullable = false)
-    private String username;
-    @Column(length = 40, nullable = false)
-    private String email;
-    @Column(length = 40, nullable = false)
-    private String password;
+    private String name;
     @Column(nullable = false)
-    private boolean isAdmin;
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Status status;
+    @Column(nullable = false)
+    private LocalDate date;
+    @Column(nullable = false)
+    private int capacity;
+    @Column(length = 40, nullable = false)
+    private String place;
+    private String description;
+    @Column(length = 40, nullable = false)
+    private String eventType;
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     private List<EventParticipation> eventParticipation;
