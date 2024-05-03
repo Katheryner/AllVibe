@@ -28,6 +28,6 @@ public class Festival {
     private String place;
     private List<User> users;
     private List<Artist> artists;
-    private String description;
     private Artist mainArtist;
+    private String description;
 }

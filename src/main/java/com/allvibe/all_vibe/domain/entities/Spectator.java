@@ -14,21 +14,26 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity(name = "lecturer")
+@Entity(name = "spectator")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Lecturer {
+public class Spectator {
   @Id
   @GeneratedValue(strategy = GenerationType.UUID)
   private String id;
   @Column(length = 40, nullable = false)
-  private String name;
+  private String username;
   @Column(length = 40, nullable = false)
-  private String specialty;
+  private String mailAddress;
+  @Column(length = 40, nullable = false)
+  private String password;
+  @Column(nullable = false)
+  private Boolean isAdmin;
 
-  @OneToMany(mappedBy = "lecturer", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "spectator", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @ToString.Exclude
   @EqualsAndHashCode.Exclude
   private User user;
+
 }
