@@ -1,5 +1,8 @@
 package com.allvibe.all_vibe.domain.entities;
 
+import com.allvibe.all_vibe.util.enums.RoleParticipation;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -21,6 +24,8 @@ public class EventParticipation {
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+    @Column(nullable = false)
+    private RoleParticipation participantRole;
     @ManyToOne(fetch = FetchType.LAZY)
     private Event event;
 
