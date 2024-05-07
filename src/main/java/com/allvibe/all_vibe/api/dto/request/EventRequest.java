@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class EventRequest {
 
-    private Long id;
     private String name;
     private Status status;
     private LocalDateTime date;

@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.allvibe.all_vibe.api.dto.request.UserRequest;
@@ -27,13 +29,13 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
     private final EventParticipationRepository eventParticipationRepository;
 
-    // @Override
-    // public Page<UserResponse> findAll(int page, int size) {
-    // if (page < 0)
-    // page = 0;
-    // Pageable pageable = PageRequest.of(page, size);
-    // return userRepository.findAll(pageable).map(this::UserToUserResponse);
-    // }
+    @Override
+    public Page<UserResponse> findAll(int page, int size) {
+    if (page < 0)
+    page = 0;
+    Pageable pageable = PageRequest.of(page, size);
+    return userRepository.findAll(pageable).map(this::UserToUserResponse);
+    }
 
     @Override
     public UserResponse findByIdWithDetails(Long id) {
@@ -59,31 +61,25 @@ public class UserService implements IUserService {
         throw new UnsupportedOperationException("Unimplemented method 'delete'");
     }
 
-    @Override
-    public Page<UserResponse> findAll(int page, int size) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findAll'");
-    }
-
     private UserResponse UserToUserResponse(User user) {
         UserResponse userResponse = new UserResponse();
         List<EventParticipation> events = user.getEventParticipation();
         List<SimpleEventParticipationResponseToUser> simpleEventParticipationResponseToUser = events.stream()
-                .map(this::eventParticipationToSimpleEventParticipationResponseToUser).collect(Collectors.toList());
+                .map(this::evtPartToSimpleRespToUser).collect(Collectors.toList());
         userResponse.setEventParticipation(simpleEventParticipationResponseToUser);
         return userResponse;
 
     }
 
-    private SimpleEventParticipationResponseToUser eventParticipationToSimpleEventParticipationResponseToUser(
+    private SimpleEventParticipationResponseToUser evtPartToSimpleRespToUser(
             EventParticipation eventParticipation) {
-        SimpleEventParticipationResponseToUser obj = new SimpleEventParticipationResponseToUser();
+        SimpleEventParticipationResponseToUser simpEventResp = new SimpleEventParticipationResponseToUser();
         Event event = eventParticipation.getEvent();
         SimpleEventResponse simpleEventResponse = eventToSimpleEventResponse(event);
-        obj.setSimpleEventResponse(simpleEventResponse);
-        BeanUtils.copyProperties(eventParticipation, obj);
+        simpEventResp.setSimpleEventResponse(simpleEventResponse);
+        BeanUtils.copyProperties(eventParticipation, simpEventResp);
 
-        return obj;
+        return simpEventResp;
     }
 
     private SimpleEventResponse eventToSimpleEventResponse(Event event) {

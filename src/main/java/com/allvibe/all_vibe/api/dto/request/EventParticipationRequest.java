@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class EventParticipationRequest {
 
-    private Long id;
     private RoleParticipation participantRole;
     private Long userId;
     private Long eventId;
