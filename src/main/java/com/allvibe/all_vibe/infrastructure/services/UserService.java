@@ -1,10 +1,20 @@
 package com.allvibe.all_vibe.infrastructure.services;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import com.allvibe.all_vibe.api.dto.request.UserRequest;
+import com.allvibe.all_vibe.api.dto.response.SimpleEventParticipationResponseToUser;
+import com.allvibe.all_vibe.api.dto.response.SimpleEventResponse;
 import com.allvibe.all_vibe.api.dto.response.UserResponse;
+import com.allvibe.all_vibe.domain.entities.Event;
+import com.allvibe.all_vibe.domain.entities.EventParticipation;
+import com.allvibe.all_vibe.domain.entities.User;
 import com.allvibe.all_vibe.domain.repositories.EventParticipationRepository;
 import com.allvibe.all_vibe.domain.repositories.UserRepository;
 import com.allvibe.all_vibe.infrastructure.abstract_services.IUserService;
@@ -56,31 +66,31 @@ public class UserService implements IUserService {
         throw new UnsupportedOperationException("Unimplemented method 'findAll'");
     }
 
-    // private UserResponse UserToUserResponse(User user) {
-    // UserResponse userResponse = new UserResponse();
-    // List<SimpleEventParticipationResponseToUser>
-    // simpleEventParticipationResponseToUser = new ArrayList<>();
-    // List<EventParticipation> events = user.getEventParticipation().stream()
-    // .map(eventParticipation ->
-    // eventToSimpleEventResponse(eventParticipation.getEvent()))
-    // .collect(Collectors.toList());
-    // BeanUtils.copyProperties(user.getEventParticipation(),
-    // simpleEventParticipationResponseToUser);
-    // userResponse.setEventParticipation(simpleEventParticipationResponseToUser);
-    // BeanUtils.copyProperties(user, userResponse);
-    // return userResponse;
-    // }
+    private UserResponse UserToUserResponse(User user) {
+        UserResponse userResponse = new UserResponse();
+        List<EventParticipation> events = user.getEventParticipation();
+        List<SimpleEventParticipationResponseToUser> simpleEventParticipationResponseToUser = events.stream()
+                .map(this::eventParticipationToSimpleEventParticipationResponseToUser).collect(Collectors.toList());
+        userResponse.setEventParticipation(simpleEventParticipationResponseToUser);
+        return userResponse;
 
-    // private SimpleEventParticipationResponseToUser
-    // eventParticipationToSimpleEventParticipationResponseToUser(
-    // EventParticipation eventParticipation) {
+    }
 
-    // }
+    private SimpleEventParticipationResponseToUser eventParticipationToSimpleEventParticipationResponseToUser(
+            EventParticipation eventParticipation) {
+        SimpleEventParticipationResponseToUser obj = new SimpleEventParticipationResponseToUser();
+        Event event = eventParticipation.getEvent();
+        SimpleEventResponse simpleEventResponse = eventToSimpleEventResponse(event);
+        obj.setSimpleEventResponse(simpleEventResponse);
+        BeanUtils.copyProperties(eventParticipation, obj);
 
-    // private SimpleEventResponse eventToSimpleEventResponse(Event event) {
-    // SimpleEventResponse simpleEventResponse = new SimpleEventResponse();
-    // BeanUtils.copyProperties(event, simpleEventResponse);
-    // return simpleEventResponse;
-    // }
+        return obj;
+    }
+
+    private SimpleEventResponse eventToSimpleEventResponse(Event event) {
+        SimpleEventResponse simpleEventResponse = new SimpleEventResponse();
+        BeanUtils.copyProperties(event, simpleEventResponse);
+        return simpleEventResponse;
+    }
 
 }
