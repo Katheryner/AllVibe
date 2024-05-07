@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 
 public interface CrudService<RQ,RS,ID> {
     
-    public Page<RS> findAll();
+    public Page<RS> findAll(int page, int size);
 
     public RS findByIdWithDetails(ID id);
 
