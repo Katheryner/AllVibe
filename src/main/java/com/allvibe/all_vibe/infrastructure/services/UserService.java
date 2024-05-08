@@ -1,5 +1,6 @@
 package com.allvibe.all_vibe.infrastructure.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.allvibe.all_vibe.api.dto.request.UserRequest;
 import com.allvibe.all_vibe.api.dto.response.SimpleEventParticipationResponseToUser;
@@ -16,52 +18,49 @@ import com.allvibe.all_vibe.api.dto.response.UserResponse;
 import com.allvibe.all_vibe.domain.entities.Event;
 import com.allvibe.all_vibe.domain.entities.EventParticipation;
 import com.allvibe.all_vibe.domain.entities.User;
-import com.allvibe.all_vibe.domain.repositories.EventParticipationRepository;
 import com.allvibe.all_vibe.domain.repositories.UserRepository;
 import com.allvibe.all_vibe.infrastructure.abstract_services.IUserService;
 
 import lombok.AllArgsConstructor;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class UserService implements IUserService {
 
     private final UserRepository userRepository;
-    private final EventParticipationRepository eventParticipationRepository;
 
     @Override
     public Page<UserResponse> findAll(int page, int size) {
-    if (page < 0)
-    page = 0;
-    Pageable pageable = PageRequest.of(page, size);
-    return userRepository.findAll(pageable).map(this::UserToUserResponse);
+        if (page < 0)
+            page = 0;
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findAll(pageable).map(this::userToUserResponse);
     }
 
     @Override
     public UserResponse findByIdWithDetails(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByIdWithDetails'");
+        return userToUserResponse(findByid(id));
     }
 
     @Override
     public UserResponse create(UserRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        return userToUserResponse(userRepository.save(requestToUser(request, new User())));
     }
 
     @Override
     public UserResponse update(UserRequest request, Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        User user = findByid(id);
+        return userToUserResponse(userRepository.save(requestToUser(request, user)));
     }
 
     @Override
     public void delete(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
+        User user = findByid(id);
+        userRepository.delete(user);
     }
 
-    private UserResponse UserToUserResponse(User user) {
+    private UserResponse userToUserResponse(User user) {
         UserResponse userResponse = new UserResponse();
         List<EventParticipation> events = user.getEventParticipation();
         List<SimpleEventParticipationResponseToUser> simpleEventParticipationResponseToUser = events.stream()
@@ -86,6 +85,16 @@ public class UserService implements IUserService {
         SimpleEventResponse simpleEventResponse = new SimpleEventResponse();
         BeanUtils.copyProperties(event, simpleEventResponse);
         return simpleEventResponse;
+    }
+
+    private User requestToUser(UserRequest request, User user) {
+        user.setEventParticipation(new ArrayList<>());
+        BeanUtils.copyProperties(request, user);
+        return user;
+    }
+
+    private User findByid(Long id){
+        return userRepository.findById(id).orElseThrow();
     }
 
 }
