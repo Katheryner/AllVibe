@@ -8,6 +8,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import com.allvibe.all_vibe.domain.entities.EventParticipation;
 import com.allvibe.all_vibe.domain.entities.User;
 import com.allvibe.all_vibe.domain.repositories.UserRepository;
 import com.allvibe.all_vibe.infrastructure.abstract_services.IUserService;
+import com.allvibe.all_vibe.util.enums.SortType;
 
 import lombok.AllArgsConstructor;
 
@@ -31,10 +33,20 @@ public class UserService implements IUserService {
     private final UserRepository userRepository;
 
     @Override
-    public Page<UserResponse> findAll(int page, int size) {
+    public Page<UserResponse> findAll(int page, int size, SortType sortType) {
         if (page < 0)
             page = 0;
-        Pageable pageable = PageRequest.of(page, size);
+
+        PageRequest pageRequest = null;
+
+        switch (sortType) {
+            case NONE -> pageRequest = PageRequest.of(page, size);
+            case ASC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
+            case DESC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
+            default -> throw new IllegalArgumentException("No valid sort: " + sortType);
+        }
+
+        Pageable pageable = pageRequest;
         return userRepository.findAll(pageable).map(this::userToUserResponse);
     }
 
