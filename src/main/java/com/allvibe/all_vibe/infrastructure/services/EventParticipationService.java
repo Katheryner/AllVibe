@@ -48,25 +48,24 @@ public class EventParticipationService implements IEventParticipationService {
         }
 
         Pageable pageable = pageRequest;
-        return eventParticipationRepository.findAll(pageable).map(null);
+        return eventParticipationRepository.findAll(pageable).map(this::eventPartToResp);
     }
 
     @Override
     public EventParticipationResponse findByIdWithDetails(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByIdWithDetails'");
+        EventParticipation eventParticipation = findByid(id);
+        return eventPartToResp(eventParticipation);
     }
 
     @Override
     public EventParticipationResponse create(EventParticipationRequest request) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'create'");
+        return eventPartToResp(eventParticipationRepository.save(requestToEntity(request, new EventParticipation())));
     }
 
     @Override
     public EventParticipationResponse update(EventParticipationRequest request, Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+        EventParticipation eventPartToUpdate = findByid(id);
+        return eventPartToResp(eventParticipationRepository.save(requestToEntity(request, eventPartToUpdate)));
     }
 
     @Override
@@ -79,7 +78,7 @@ public class EventParticipationService implements IEventParticipationService {
         return eventParticipationRepository.findById(id).orElseThrow();
     }
 
-    private EventParticipationResponse evtPartToResp(EventParticipation eventParticipation){
+    private EventParticipationResponse eventPartToResp(EventParticipation eventParticipation) {
         EventParticipationResponse eventParticipationResponse = new EventParticipationResponse();
         User user = eventParticipation.getUser();
         Event event = eventParticipation.getEvent();
@@ -89,14 +88,25 @@ public class EventParticipationService implements IEventParticipationService {
         return eventParticipationResponse;
     }
 
-    private SimpleUserResponse userToSimpleResponse (User user){
+    private SimpleUserResponse userToSimpleResponse(User user) {
         SimpleUserResponse simpleUserResponse = new SimpleUserResponse();
         BeanUtils.copyProperties(user, simpleUserResponse);
         return simpleUserResponse;
     }
+
     private SimpleEventResponse eventToSimpleEventResponse(Event event) {
         SimpleEventResponse simpleEventResponse = new SimpleEventResponse();
         BeanUtils.copyProperties(event, simpleEventResponse);
         return simpleEventResponse;
+    }
+
+    private EventParticipation requestToEntity(EventParticipationRequest request,
+            EventParticipation eventParticipation) {
+        User user = userRepository.findById(request.getUserId()).orElseThrow();
+        Event event = eventRepository.findById(request.getEventId()).orElseThrow();
+        eventParticipation.setUser(user);
+        eventParticipation.setEvent(event);
+        BeanUtils.copyProperties(request, eventParticipation);
+        return eventParticipation;
     }
 }
