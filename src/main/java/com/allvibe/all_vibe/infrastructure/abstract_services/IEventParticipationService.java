@@ -5,4 +5,5 @@ import com.allvibe.all_vibe.api.dto.response.EventParticipationResponse;
 
 public interface IEventParticipationService extends CrudService<EventParticipationRequest,EventParticipationResponse,Long>{
 
+    public final String FIELD_BY_SORT = "participantRole";
 }
