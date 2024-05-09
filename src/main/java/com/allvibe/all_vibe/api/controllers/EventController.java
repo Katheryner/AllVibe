@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,5 +44,21 @@ public class EventController {
   @PostMapping
   public ResponseEntity<EventResponse> create(@Validated @RequestBody EventRequest request) {
     return ResponseEntity.ok(this.service.create(request));
+  }
+
+  @GetMapping(path = "/{id}")
+  public ResponseEntity<EventResponse> getById(@RequestParam Long id) {
+    return ResponseEntity.ok(this.service.findByIdWithDetails(id));
+  }
+
+  @PutMapping(path = "/{id}")
+  public ResponseEntity<EventResponse> update(@Validated @RequestBody EventRequest request, @RequestParam Long id) {
+    return ResponseEntity.ok(this.service.update(request, id));
+  }
+
+  @DeleteMapping(path = "/{id}")
+  public ResponseEntity<Void> delete(@RequestParam Long id) {
+    this.service.delete(id);
+    return ResponseEntity.ok().build();
   }
 }
