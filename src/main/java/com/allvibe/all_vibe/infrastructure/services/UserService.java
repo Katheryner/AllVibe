@@ -2,7 +2,6 @@ package com.allvibe.all_vibe.infrastructure.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ import lombok.AllArgsConstructor;
 @Transactional
 @AllArgsConstructor
 public class UserService implements IUserService {
-    
+
     @Autowired
     private final UserRepository userRepository;
 
@@ -75,30 +74,39 @@ public class UserService implements IUserService {
     }
 
     private UserResponse userToUserResponse(User user) {
-        UserResponse userResponse = new UserResponse();
         List<EventParticipation> events = user.getEventParticipation();
         List<SimpleEventParticipationResponseToUser> simpleEventParticipationResponseToUser = events.stream()
-                .map(this::evtPartToSimpleRespToUser).collect(Collectors.toList());
-        userResponse.setEventParticipation(simpleEventParticipationResponseToUser);
-        return userResponse;
+                .map(this::evtPartToSimpleRespToUser).toList();
+
+        return UserResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .password(user.getPassword())
+                .isAdmin(user.isAdmin())
+                .eventParticipation(simpleEventParticipationResponseToUser).build();
 
     }
 
     private SimpleEventParticipationResponseToUser evtPartToSimpleRespToUser(
             EventParticipation eventParticipation) {
-        SimpleEventParticipationResponseToUser simpEventResp = new SimpleEventParticipationResponseToUser();
+
         Event event = eventParticipation.getEvent();
         SimpleEventResponse simpleEventResponse = eventToSimpleEventResponse(event);
-        simpEventResp.setSimpleEventResponse(simpleEventResponse);
-        BeanUtils.copyProperties(eventParticipation, simpEventResp);
 
-        return simpEventResp;
+        return SimpleEventParticipationResponseToUser.builder().id(eventParticipation.getId())
+                .participantRole(eventParticipation.getParticipantRole()).simpleEventResponse(simpleEventResponse)
+                .build();
     }
 
     private SimpleEventResponse eventToSimpleEventResponse(Event event) {
-        SimpleEventResponse simpleEventResponse = new SimpleEventResponse();
-        BeanUtils.copyProperties(event, simpleEventResponse);
-        return simpleEventResponse;
+        return SimpleEventResponse.builder()
+                .id(event.getId())
+                .name(event.getName())
+                .status(event.getStatus())
+                .place(event.getPlace())
+                .capacity(event.getCapacity()).date(event.getDate())
+                .description(event.getDescription()).eventType(event.getEventType()).build();
     }
 
     private User requestToUser(UserRequest request, User user) {
@@ -107,7 +115,7 @@ public class UserService implements IUserService {
         return user;
     }
 
-    private User findByid(Long id){
+    private User findByid(Long id) {
         return userRepository.findById(id).orElseThrow();
     }
 
