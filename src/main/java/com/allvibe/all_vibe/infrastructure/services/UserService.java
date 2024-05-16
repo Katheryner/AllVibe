@@ -22,6 +22,7 @@ import com.allvibe.all_vibe.domain.entities.User;
 import com.allvibe.all_vibe.domain.repositories.UserRepository;
 import com.allvibe.all_vibe.infrastructure.abstract_services.IUserService;
 import com.allvibe.all_vibe.util.enums.SortType;
+import com.allvibe.all_vibe.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
@@ -116,7 +117,8 @@ public class UserService implements IUserService {
     }
 
     private User findByid(Long id) {
-        return userRepository.findById(id).orElseThrow();
+        return userRepository.findById(id).orElseThrow(
+                () -> new BadRequestException("No users were found with the supplied id."));
     }
 
 }

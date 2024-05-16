@@ -30,7 +30,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping ( path = "/users")
+@RequestMapping(path = "/users")
 @AllArgsConstructor
 public class UserController {
     private final IUserService userService;
@@ -49,14 +49,14 @@ public class UserController {
     }
 
     @Operation(summary = "Obtiene un usuario por su número de id")
-     @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
+    @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserResponse> get(
             @PathVariable Long id) {
         return ResponseEntity.ok(this.userService.findByIdWithDetails(id));
-    } 
+    }
 
     @Operation(summary = "Crea un usuario")
     @ApiResponse(responseCode = "400", description = "Cuando el request no es valido", content = {
@@ -70,7 +70,7 @@ public class UserController {
 
     @Operation(summary = "Actualiza un usuario por su número de id")
     @ApiResponse(responseCode = "400", description = "Cuando el request no es valido", content = {
-        @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
     @PutMapping(path = "/{id}")
     public ResponseEntity<UserResponse> update(
@@ -81,14 +81,12 @@ public class UserController {
 
     @Operation(summary = "Elimina un usuario por su número de id")
     @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
-        @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
-     @DeleteMapping(path = "/{id}")
+    @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         this.userService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

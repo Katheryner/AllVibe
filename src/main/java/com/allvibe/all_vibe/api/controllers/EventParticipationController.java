@@ -46,7 +46,7 @@ public class EventParticipationController {
         return ResponseEntity.ok(this.eventService.findAll(page - 1, size, sortType));
     }
 
-     @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
+    @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @GetMapping(path = "/{id}")
@@ -65,7 +65,7 @@ public class EventParticipationController {
     }
 
     @ApiResponse(responseCode = "400", description = "Cuando el request no es valido", content = {
-        @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
     @PutMapping(path = "/{id}")
     public ResponseEntity<EventParticipationResponse> update(
@@ -73,9 +73,10 @@ public class EventParticipationController {
             @PathVariable Long id) {
         return ResponseEntity.ok(this.eventService.update(request, id));
     }
+
     @Operation(summary = "Elimina un even")
     @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
-        @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {

@@ -21,7 +21,7 @@ import com.allvibe.all_vibe.domain.entities.EventParticipation;
 import com.allvibe.all_vibe.domain.repositories.EventRepository;
 import com.allvibe.all_vibe.infrastructure.abstract_services.IEventService;
 import com.allvibe.all_vibe.util.enums.SortType;
-import com.allvibe.all_vibe.util.exceptions.IdNotFoundExeption;
+import com.allvibe.all_vibe.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
@@ -46,8 +46,6 @@ public class EventService implements IEventService {
     }
     return this.eventRepository.findAll(pagination).map(this::entityToResp);
   }
-  
-  
 
   @Override
   public EventResponse findByIdWithDetails(Long id) {
@@ -114,7 +112,8 @@ public class EventService implements IEventService {
   }
 
   private Event find(Long id) {
-    return this.eventRepository.findById(id).orElseThrow(() -> new IdNotFoundExeption("events"));
+    return this.eventRepository.findById(id)
+        .orElseThrow(() -> new BadRequestException("No events were found with the supplied id."));
   }
 
 }

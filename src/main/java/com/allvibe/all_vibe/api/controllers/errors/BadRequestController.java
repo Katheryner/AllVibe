@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.allvibe.all_vibe.api.error_handler.BaseErrorResponse;
 import com.allvibe.all_vibe.api.error_handler.ErrorResponse;
 import com.allvibe.all_vibe.api.error_handler.ErrorsResponse;
-import com.allvibe.all_vibe.util.exceptions.IdNotFoundExeption;
+import com.allvibe.all_vibe.util.exceptions.BadRequestException;
 
 @RestControllerAdvice
 @ResponseStatus(code = HttpStatus.BAD_REQUEST)
 public class BadRequestController {
-  @ExceptionHandler(IdNotFoundExeption.class)
-  public BaseErrorResponse handleIdNotFound(IdNotFoundExeption exeption) {
+  @ExceptionHandler(BadRequestException.class)
+  public BaseErrorResponse handleIdNotFound(BadRequestException exeption) {
     return ErrorResponse.builder()
         .message(exeption.getMessage())
         .status(HttpStatus.BAD_REQUEST.name())

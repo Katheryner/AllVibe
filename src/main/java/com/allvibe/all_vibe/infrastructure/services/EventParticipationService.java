@@ -20,6 +20,7 @@ import com.allvibe.all_vibe.domain.repositories.EventRepository;
 import com.allvibe.all_vibe.domain.repositories.UserRepository;
 import com.allvibe.all_vibe.infrastructure.abstract_services.IEventParticipationService;
 import com.allvibe.all_vibe.util.enums.SortType;
+import com.allvibe.all_vibe.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
 
@@ -75,7 +76,8 @@ public class EventParticipationService implements IEventParticipationService {
     }
 
     private EventParticipation findByid(Long id) {
-        return eventParticipationRepository.findById(id).orElseThrow();
+        return eventParticipationRepository.findById(id).orElseThrow(
+                () -> new BadRequestException("No found with the supplied id."));
     }
 
     private EventParticipationResponse eventPartToResp(EventParticipation eventParticipation) {
