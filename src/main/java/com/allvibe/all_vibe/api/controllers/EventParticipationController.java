@@ -46,7 +46,8 @@ public class EventParticipationController {
         return ResponseEntity.ok(this.eventService.findAll(page - 1, size, sortType));
     }
 
-    @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
+    @Operation(summary = "Gets a eventParticipation by their id number")
+    @ApiResponse(responseCode = "400", description = "When the id is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @GetMapping(path = "/{id}")
@@ -55,7 +56,8 @@ public class EventParticipationController {
         return ResponseEntity.ok(this.eventService.findByIdWithDetails(id));
     }
 
-    @ApiResponse(responseCode = "400", description = "Cuando el request no es valido", content = {
+    @Operation(summary = "Create a eventParticipation")
+    @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
     @PostMapping
@@ -64,7 +66,8 @@ public class EventParticipationController {
         return ResponseEntity.ok(this.eventService.create(request));
     }
 
-    @ApiResponse(responseCode = "400", description = "Cuando el request no es valido", content = {
+    @Operation(summary = "Update a eventParticipation by their id number")
+    @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
     @PutMapping(path = "/{id}")
@@ -74,8 +77,8 @@ public class EventParticipationController {
         return ResponseEntity.ok(this.eventService.update(request, id));
     }
 
-    @Operation(summary = "Elimina un even")
-    @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
+    @Operation(summary = "Delete a eventParticipation by their id number")
+    @ApiResponse(responseCode = "400", description = "When the id is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @DeleteMapping(path = "/{id}")
@@ -83,5 +86,4 @@ public class EventParticipationController {
         this.eventService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }
