@@ -45,14 +45,13 @@ public class EventService implements IEventService {
       case DESC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
     }
     return this.eventRepository.findAll(pagination).map(this::entityToResp);
-
   }
+  
+  
 
   @Override
   public EventResponse findByIdWithDetails(Long id) {
-    Event response = this.find(id);
-    return this.entityToResp(response);
-
+    return this.entityToResp(this.find(id));
   }
 
   @Override
@@ -94,12 +93,18 @@ public class EventService implements IEventService {
   }
 
   private SimpleEventParticipationResponseToEvent entityToResponseToEventResponse(EventParticipation obj) {
-    SimpleUserResponse response = new SimpleUserResponse();
-    BeanUtils.copyProperties(obj.getUser(), response);
+    SimpleUserResponse userBasic = SimpleUserResponse.builder()
+        .id(obj.getUser().getId())
+        .email(obj.getUser().getEmail())
+        .username(obj.getUser().getUsername())
+        .password(obj.getUser().getPassword())
+        .isAdmin(obj.getUser().isAdmin())
+        .build();
+
     return SimpleEventParticipationResponseToEvent.builder()
         .id(obj.getId())
         .participantRole(obj.getParticipantRole())
-        .simpleUserResponse(response)
+        .simpleUserResponse(userBasic)
         .build();
   }
 

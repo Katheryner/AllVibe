@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -47,17 +48,17 @@ public class EventController {
   }
 
   @GetMapping(path = "/{id}")
-  public ResponseEntity<EventResponse> getById(@RequestParam Long id) {
+  public ResponseEntity<EventResponse> getById(@PathVariable Long id) {
     return ResponseEntity.ok(this.service.findByIdWithDetails(id));
   }
 
   @PutMapping(path = "/{id}")
-  public ResponseEntity<EventResponse> update(@Validated @RequestBody EventRequest request, @RequestParam Long id) {
+  public ResponseEntity<EventResponse> update(@Validated @RequestBody EventRequest request, @PathVariable Long id) {
     return ResponseEntity.ok(this.service.update(request, id));
   }
 
   @DeleteMapping(path = "/{id}")
-  public ResponseEntity<Void> delete(@RequestParam Long id) {
+  public ResponseEntity<Void> delete(@PathVariable Long id) {
     this.service.delete(id);
     return ResponseEntity.ok().build();
   }
