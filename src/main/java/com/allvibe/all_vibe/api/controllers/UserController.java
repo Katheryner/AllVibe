@@ -54,7 +54,7 @@ public class UserController {
     })
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserResponse> get(
-            @PathVariable Long id) {
+            @PathVariable String id) {
         return ResponseEntity.ok(this.userService.findByIdWithDetails(id));
     } 
 
@@ -75,7 +75,7 @@ public class UserController {
     @PutMapping(path = "/{id}")
     public ResponseEntity<UserResponse> update(
             @Validated @RequestBody UserRequest request,
-            @PathVariable Long id) {
+            @PathVariable String id) {
         return ResponseEntity.ok(this.userService.update(request, id));
     }
 
@@ -84,7 +84,7 @@ public class UserController {
         @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
      @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         this.userService.delete(id);
         return ResponseEntity.noContent().build();
     }
