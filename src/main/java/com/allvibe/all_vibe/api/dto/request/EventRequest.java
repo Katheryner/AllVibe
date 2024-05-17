@@ -3,6 +3,7 @@ package com.allvibe.all_vibe.api.dto.request;
 import java.time.LocalDateTime;
 
 import com.allvibe.all_vibe.util.enums.Status;
+import com.allvibe.all_vibe.util.enums.TypeEvent;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.FutureOrPresent;
@@ -32,7 +33,6 @@ public class EventRequest {
     private String place;
     @NotBlank(message = "Description is required.")
     private String description;
-    @NotBlank(message = "Event type is required.")
-    private String eventType;
-
+    @NotNull(message = "Event type is required.")
+    private TypeEvent eventType;
 }

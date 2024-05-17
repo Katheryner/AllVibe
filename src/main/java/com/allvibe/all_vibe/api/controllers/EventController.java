@@ -1,5 +1,6 @@
 package com.allvibe.all_vibe.api.controllers;
 
+import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import com.allvibe.all_vibe.api.error_handler.ErrorResponse;
 import com.allvibe.all_vibe.api.error_handler.ErrorsResponse;
 import com.allvibe.all_vibe.infrastructure.abstract_services.IEventService;
 import com.allvibe.all_vibe.util.enums.SortType;
+import com.allvibe.all_vibe.util.enums.TypeEvent;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -59,7 +61,7 @@ public class EventController {
   }
 
   @Operation(summary = "Find an event by its ID number")
-  @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
+  @ApiResponse(responseCode = "404", description = "When the ID is not found", content = {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
   })
   @GetMapping(path = "/{id}")
@@ -68,7 +70,7 @@ public class EventController {
   }
 
   @Operation(summary = "Update an event by its ID number")
-  @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
+  @ApiResponse(responseCode = "400", description = "When the request is not found", content = {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
   })
   @PutMapping(path = "/{id}")
@@ -77,12 +79,21 @@ public class EventController {
   }
 
   @Operation(summary = "Delete an event by its ID number")
-  @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
+  @ApiResponse(responseCode = "404", description = "When the ID is not found", content = {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
   })
   @DeleteMapping(path = "/{id}")
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     this.service.delete(id);
     return ResponseEntity.ok().build();
+  }
+
+  @Operation(summary = "Return a list of events according to type")
+  @ApiResponse(responseCode = "404", description = "When the type event is not found", content = {
+      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
+  })
+  @GetMapping(path = "/filter/{typeEvent}")
+  public List<EventResponse> filterByTypeEvent(@PathVariable TypeEvent typeEvent) {
+    return this.service.findByEventType(typeEvent);
   }
 }

@@ -49,7 +49,7 @@ public class UserController {
     }
 
     @Operation(summary = "Get an user by its ID number")
-    @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
+    @ApiResponse(responseCode = "404", description = "When the ID is not found", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @GetMapping(path = "/{id}")
@@ -80,7 +80,7 @@ public class UserController {
     }
 
     @Operation(summary = "Delete an user by its ID number")
-    @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
+    @ApiResponse(responseCode = "404", description = "When the ID is not found", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @DeleteMapping(path = "/{id}")
