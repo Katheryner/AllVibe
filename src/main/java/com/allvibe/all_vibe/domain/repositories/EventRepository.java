@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.allvibe.all_vibe.domain.entities.Event;
 
 @Repository
-public interface EventRepository extends JpaRepository<Event,Long>{
+public interface EventRepository extends JpaRepository<Event, Long> {
 
 }

@@ -19,5 +19,5 @@ public class UserRequest {
     @NotBlank(message = "The password is required")
     private String password;
     private RoleUser role;
-    
+
 }
