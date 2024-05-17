@@ -41,10 +41,10 @@ public class UserService implements IUserService {
         PageRequest pageRequest = null;
 
         switch (sortType) {
-            case NONE -> pageRequest = PageRequest.of(page, size);
-            case ASC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
-            case DESC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
-            default -> throw new IllegalArgumentException("No valid sort: " + sortType);
+          case NONE -> pageRequest = PageRequest.of(page, size);
+          case ASC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
+          case DESC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
+          default -> throw new IllegalArgumentException("No valid sort: " + sortType);
         }
 
         Pageable pageable = pageRequest;
@@ -52,7 +52,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserResponse findByIdWithDetails(Long id) {
+    public UserResponse findByIdWithDetails(String id) {
         return userToUserResponse(findByid(id));
     }
 
@@ -62,13 +62,13 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public UserResponse update(UserRequest request, Long id) {
+    public UserResponse update(UserRequest request, String id) {
         User user = findByid(id);
         return userToUserResponse(userRepository.save(requestToUser(request, user)));
     }
 
     @Override
-    public void delete(Long id) {
+    public void delete(String id) {
         User user = findByid(id);
         userRepository.delete(user);
     }
@@ -83,7 +83,7 @@ public class UserService implements IUserService {
                 .username(user.getUsername())
                 .email(user.getEmail())
                 .password(user.getPassword())
-                .isAdmin(user.isAdmin())
+                .role(user.getRole())
                 .eventParticipation(simpleEventParticipationResponseToUser).build();
 
     }
@@ -115,7 +115,7 @@ public class UserService implements IUserService {
         return user;
     }
 
-    private User findByid(Long id) {
+    private User findByid(String id) {
         return userRepository.findById(id).orElseThrow();
     }
 

@@ -35,7 +35,7 @@ import lombok.AllArgsConstructor;
 public class UserController {
     private final IUserService userService;
 
-    @Operation(summary = "Obtiene toda la lista de usuarios de forma paginada")
+    @Operation(summary = "Gets the entire user list in a paginated manner")
 
     @GetMapping
     public ResponseEntity<Page<UserResponse>> getAll(
@@ -48,18 +48,18 @@ public class UserController {
         return ResponseEntity.ok(this.userService.findAll(page - 1, size, sortType));
     }
 
-    @Operation(summary = "Obtiene un usuario por su número de id")
-     @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
+    @Operation(summary = "Gets a user by their ID number")
+     @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @GetMapping(path = "/{id}")
     public ResponseEntity<UserResponse> get(
-            @PathVariable Long id) {
+            @PathVariable String id) {
         return ResponseEntity.ok(this.userService.findByIdWithDetails(id));
     } 
 
-    @Operation(summary = "Crea un usuario")
-    @ApiResponse(responseCode = "400", description = "Cuando el request no es valido", content = {
+    @Operation(summary = "Creates a user")
+    @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
     @PostMapping
@@ -68,23 +68,23 @@ public class UserController {
         return ResponseEntity.ok(this.userService.create(request));
     }
 
-    @Operation(summary = "Actualiza un usuario por su número de id")
-    @ApiResponse(responseCode = "400", description = "Cuando el request no es valido", content = {
+    @Operation(summary = "Updates a user by their ID number")
+    @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
         @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
     @PutMapping(path = "/{id}")
     public ResponseEntity<UserResponse> update(
             @Validated @RequestBody UserRequest request,
-            @PathVariable Long id) {
+            @PathVariable String id) {
         return ResponseEntity.ok(this.userService.update(request, id));
     }
 
-    @Operation(summary = "Elimina un usuario por su número de id")
-    @ApiResponse(responseCode = "400", description = "Cuando el id no es valido", content = {
+    @Operation(summary = "Deletes a user by their ID number")
+    @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
         @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
      @DeleteMapping(path = "/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable String id) {
         this.userService.delete(id);
         return ResponseEntity.noContent().build();
     }

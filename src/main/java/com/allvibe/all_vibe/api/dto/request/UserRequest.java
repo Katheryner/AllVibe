@@ -1,5 +1,7 @@
 package com.allvibe.all_vibe.api.dto.request;
 
+import com.allvibe.all_vibe.util.enums.RoleUser;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,6 @@ public class UserRequest {
     private String username;
     private String email;
     private String password;
-    private boolean isAdmin;
+    private RoleUser role;
     
 }
