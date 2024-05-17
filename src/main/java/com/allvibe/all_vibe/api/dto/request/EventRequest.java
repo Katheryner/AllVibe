@@ -18,21 +18,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EventRequest {
-    @NotBlank(message = "El nombre del evento es requerido")
+    @NotBlank(message = "The name of the event is required")
     private String name;
-    // @NotBlank(message = "El estado es requerido.")
+    @NotNull(message = "Status is required.")
     private Status status;
-    @NotNull
-    @FutureOrPresent(message = "La fecha no puede ser del pasado.")
+    @NotNull(message = "Date is required")
+    @FutureOrPresent(message = "The date cannot be in the past.")
     private LocalDateTime date;
-    @NotNull
-    @DecimalMin(value = "0.01", message = "El valor de la capacidad debe ser mayor a 0.")
+    @NotNull(message = "Capacity required.")
+    @DecimalMin(value = "0.01", message = "The value of capacity must be greater than 0.")
     private int capacity;
-    @NotBlank(message = "El nombre es requerido.")
+    @NotBlank(message = "Name required.")
     private String place;
-    @NotBlank(message = "La descripcion es Requerida.")
+    @NotBlank(message = "Description is required.")
     private String description;
-    @NotBlank(message = "El tipo de evento es requerido.")
+    @NotBlank(message = "Event type is required.")
     private String eventType;
 
 }

@@ -54,7 +54,7 @@ public class EventParticipationController {
             @PathVariable Long id) {
         return ResponseEntity.ok(this.eventService.findByIdWithDetails(id));
     }
-    @Operation(summary = "Creates a reservation")
+    @Operation(summary = "Create a reservation")
     @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
@@ -63,7 +63,7 @@ public class EventParticipationController {
             @Validated @RequestBody EventParticipationRequest request) {
         return ResponseEntity.ok(this.eventService.create(request));
     }
-    @Operation(summary = "Updates a reservation")
+    @Operation(summary = "Update a reservation")
     @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
         @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
@@ -73,7 +73,7 @@ public class EventParticipationController {
             @PathVariable Long id) {
         return ResponseEntity.ok(this.eventService.update(request, id));
     }
-    @Operation(summary = "Deletes a reservation")
+    @Operation(summary = "Delete a reservation")
     @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
         @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
@@ -82,5 +82,4 @@ public class EventParticipationController {
         this.eventService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
 }

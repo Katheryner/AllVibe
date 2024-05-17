@@ -30,12 +30,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.AllArgsConstructor;
 
 @RestController
-@RequestMapping ( path = "/users")
+@RequestMapping(path = "/users")
 @AllArgsConstructor
 public class UserController {
     private final IUserService userService;
 
-    @Operation(summary = "Gets the entire user list in a paginated manner")
+    @Operation(summary = "Get the entire user list in a paginated manner")
 
     @GetMapping
     public ResponseEntity<Page<UserResponse>> getAll(
@@ -48,7 +48,7 @@ public class UserController {
         return ResponseEntity.ok(this.userService.findAll(page - 1, size, sortType));
     }
 
-    @Operation(summary = "Gets a user by their ID number")
+    @Operation(summary = "Get an user by its ID number")
      @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
@@ -56,9 +56,9 @@ public class UserController {
     public ResponseEntity<UserResponse> get(
             @PathVariable String id) {
         return ResponseEntity.ok(this.userService.findByIdWithDetails(id));
-    } 
+    }
 
-    @Operation(summary = "Creates a user")
+    @Operation(summary = "Create an user")
     @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
@@ -68,7 +68,7 @@ public class UserController {
         return ResponseEntity.ok(this.userService.create(request));
     }
 
-    @Operation(summary = "Updates a user by their ID number")
+    @Operation(summary = "Update an user by its ID number")
     @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
         @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
@@ -79,7 +79,7 @@ public class UserController {
         return ResponseEntity.ok(this.userService.update(request, id));
     }
 
-    @Operation(summary = "Deletes a user by their ID number")
+    @Operation(summary = "Delete an user by its ID number")
     @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
         @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
@@ -88,7 +88,5 @@ public class UserController {
         this.userService.delete(id);
         return ResponseEntity.noContent().build();
     }
-
-
 
 }

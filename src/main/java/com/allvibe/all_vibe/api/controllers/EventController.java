@@ -49,7 +49,7 @@ public class EventController {
     return ResponseEntity.ok(this.service.findAll(page - 1, size, sortType));
   }
 
-  @Operation(summary = "Creates a event")
+  @Operation(summary = "Create an event")
     @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
@@ -58,7 +58,7 @@ public class EventController {
     return ResponseEntity.ok(this.service.create(request));
   }
 
-  @Operation(summary = "Find a event by its ID number")
+  @Operation(summary = "Find an event by its ID number")
   @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
@@ -67,7 +67,7 @@ public class EventController {
     return ResponseEntity.ok(this.service.findByIdWithDetails(id));
   }
 
-  @Operation(summary = "Updates an event by their ID number")
+  @Operation(summary = "Update an event by its ID number")
   @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
         @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
@@ -76,7 +76,7 @@ public class EventController {
     return ResponseEntity.ok(this.service.update(request, id));
   }
 
-  @Operation(summary = "Deletes an event by their ID number")
+  @Operation(summary = "Delete an event by its ID number")
   @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
         @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
