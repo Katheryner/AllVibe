@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.allvibe.all_vibe.util.enums.Status;
+import com.allvibe.all_vibe.util.enums.TypeEvent;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -44,8 +45,9 @@ public class Event {
     @Column(length = 40, nullable = false)
     private String place;
     private String description;
-    @Column(length = 40, nullable = false)
-    private String eventType;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private TypeEvent eventType;
     @OneToMany(mappedBy = "event", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

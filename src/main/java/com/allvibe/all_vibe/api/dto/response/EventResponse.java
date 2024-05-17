@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.allvibe.all_vibe.util.enums.Status;
+import com.allvibe.all_vibe.util.enums.TypeEvent;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +24,7 @@ public class EventResponse {
     private int capacity;
     private String place;
     private String description;
-    private String eventType;
+    private TypeEvent eventType;
     private List<SimpleEventParticipationResponseToEvent> eventParticipation;
 
 }

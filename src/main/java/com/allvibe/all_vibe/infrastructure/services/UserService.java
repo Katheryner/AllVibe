@@ -42,10 +42,10 @@ public class UserService implements IUserService {
         PageRequest pageRequest = null;
 
         switch (sortType) {
-          case NONE -> pageRequest = PageRequest.of(page, size);
-          case ASC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
-          case DESC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
-          default -> throw new IllegalArgumentException("No valid sort: " + sortType);
+            case NONE -> pageRequest = PageRequest.of(page, size);
+            case ASC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
+            case DESC -> pageRequest = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
+            default -> throw new IllegalArgumentException("No valid sort: " + sortType);
         }
 
         Pageable pageable = pageRequest;
@@ -117,7 +117,8 @@ public class UserService implements IUserService {
     }
 
     private User findByid(String id) {
-        return userRepository.findById(id).orElseThrow(() -> new BadRequestException("No users were found with the supplied id."));
+        return userRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("No users were found with the supplied id."));
     }
 
 }

@@ -2,6 +2,7 @@ package com.allvibe.all_vibe.infrastructure.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.BeanUtils;
@@ -21,6 +22,7 @@ import com.allvibe.all_vibe.domain.entities.EventParticipation;
 import com.allvibe.all_vibe.domain.repositories.EventRepository;
 import com.allvibe.all_vibe.infrastructure.abstract_services.IEventService;
 import com.allvibe.all_vibe.util.enums.SortType;
+import com.allvibe.all_vibe.util.enums.TypeEvent;
 import com.allvibe.all_vibe.util.exceptions.BadRequestException;
 
 import lombok.AllArgsConstructor;
@@ -115,6 +117,13 @@ public class EventService implements IEventService {
   private Event find(Long id) {
     return this.eventRepository.findById(id)
         .orElseThrow(() -> new BadRequestException("No events were found with the supplied id."));
+  }
+
+  @Override
+  public List<EventResponse> findByEventType(TypeEvent eventType) {
+
+    return this.eventRepository.findByEventType(eventType).stream()
+        .map(this::entityToResp).collect(Collectors.toList());
   }
 
 }

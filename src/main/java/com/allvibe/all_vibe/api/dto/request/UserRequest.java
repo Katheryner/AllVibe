@@ -2,6 +2,7 @@ package com.allvibe.all_vibe.api.dto.request;
 
 import com.allvibe.all_vibe.util.enums.RoleUser;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class UserRequest {
     private String email;
     @NotBlank(message = "The password is required")
     private String password;
+    @NotNull(message = "Rol is required.")
     private RoleUser role;
-    
+
 }
