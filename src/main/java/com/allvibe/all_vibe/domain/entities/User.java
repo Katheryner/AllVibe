@@ -2,9 +2,13 @@ package com.allvibe.all_vibe.domain.entities;
 
 import java.util.List;
 
+import com.allvibe.all_vibe.util.enums.RoleUser;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,8 +29,8 @@ import lombok.ToString;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
     @Column(length = 40, nullable = false)
     private String username;
     @Column(length = 40, nullable = false)
@@ -34,7 +38,8 @@ public class User {
     @Column(length = 40, nullable = false)
     private String password;
     @Column(nullable = false)
-    private boolean isAdmin;
+    @Enumerated(EnumType.STRING)
+    private RoleUser role;
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

@@ -16,7 +16,7 @@ public class EventParticipationRequest {
     @NotNull(message = "Roll is required.")
     private RoleParticipation participantRole;
     @NotNull(message = "User id is required.")
-    private Long userId;
+    private String userId;
     @NotNull(message = "Event id is required.")
     private Long eventId;
 

@@ -1,5 +1,6 @@
 package com.allvibe.all_vibe.api.dto.request;
 
+import com.allvibe.all_vibe.util.enums.RoleUser;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,7 +18,6 @@ public class UserRequest {
     private String email;
     @NotBlank(message = "The password is required")
     private String password;
-    
-    private boolean isAdmin;
+    private RoleUser role;
     
 }

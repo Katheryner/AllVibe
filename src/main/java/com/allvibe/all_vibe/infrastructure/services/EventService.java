@@ -43,6 +43,7 @@ public class EventService implements IEventService {
       case NONE -> pagination = PageRequest.of(page, size);
       case ASC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).ascending());
       case DESC -> pagination = PageRequest.of(page, size, Sort.by(FIELD_BY_SORT).descending());
+      default -> throw new IllegalArgumentException("No valid sort: " + sortType);
     }
     return this.eventRepository.findAll(pagination).map(this::entityToResp);
   }
@@ -96,7 +97,7 @@ public class EventService implements IEventService {
         .email(obj.getUser().getEmail())
         .username(obj.getUser().getUsername())
         .password(obj.getUser().getPassword())
-        .isAdmin(obj.getUser().isAdmin())
+        .role(obj.getUser().getRole())
         .build();
 
     return SimpleEventParticipationResponseToEvent.builder()

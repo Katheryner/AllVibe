@@ -36,8 +36,8 @@ import lombok.AllArgsConstructor;
 public class EventController {
   @Autowired
   private final IEventService service;
-
-  @Operation(summary = "Gets the entire list of events in paginated form.")
+  
+  @Operation(summary = "Retrieve all existing events")
   @GetMapping
   public ResponseEntity<Page<EventResponse>> getAll(
       @RequestParam(defaultValue = "1") int page,
@@ -49,37 +49,37 @@ public class EventController {
     return ResponseEntity.ok(this.service.findAll(page - 1, size, sortType));
   }
 
-  @Operation(summary = "Create a event")
-  @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
-      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
-  })
+  @Operation(summary = "Create an event")
+    @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
+    })
   @PostMapping
   public ResponseEntity<EventResponse> create(@Validated @RequestBody EventRequest request) {
     return ResponseEntity.ok(this.service.create(request));
   }
 
-  @Operation(summary = "Gets a event by their id number")
-  @ApiResponse(responseCode = "400", description = "When the id is not valid", content = {
-      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
-  })
+  @Operation(summary = "Find an event by its ID number")
+  @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
+            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+    })
   @GetMapping(path = "/{id}")
   public ResponseEntity<EventResponse> getById(@PathVariable Long id) {
     return ResponseEntity.ok(this.service.findByIdWithDetails(id));
   }
 
-  @Operation(summary = "Update a event by their id number")
+  @Operation(summary = "Update an event by its ID number")
   @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
-      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
-  })
+        @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
+    })
   @PutMapping(path = "/{id}")
   public ResponseEntity<EventResponse> update(@Validated @RequestBody EventRequest request, @PathVariable Long id) {
     return ResponseEntity.ok(this.service.update(request, id));
   }
 
-  @Operation(summary = "Delete a event by their id number")
-  @ApiResponse(responseCode = "400", description = "When the id is not valid", content = {
-      @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
-  })
+  @Operation(summary = "Delete an event by its ID number")
+  @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
+        @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+    })
   @DeleteMapping(path = "/{id}")
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     this.service.delete(id);

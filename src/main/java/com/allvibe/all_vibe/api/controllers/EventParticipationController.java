@@ -34,7 +34,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EventParticipationController {
     private final IEventParticipationService eventService;
-
+    @Operation(summary = "Retrieve all existing reservations")
     @GetMapping
     public ResponseEntity<Page<EventParticipationResponse>> getAll(
             @RequestParam(defaultValue = "1") int page,
@@ -45,9 +45,8 @@ public class EventParticipationController {
 
         return ResponseEntity.ok(this.eventService.findAll(page - 1, size, sortType));
     }
-
-    @Operation(summary = "Gets a eventParticipation by their id number")
-    @ApiResponse(responseCode = "400", description = "When the id is not valid", content = {
+    @Operation(summary = "Find a reservation by its ID number")
+    @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @GetMapping(path = "/{id}")
@@ -55,8 +54,7 @@ public class EventParticipationController {
             @PathVariable Long id) {
         return ResponseEntity.ok(this.eventService.findByIdWithDetails(id));
     }
-
-    @Operation(summary = "Create a eventParticipation")
+    @Operation(summary = "Create a reservation")
     @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
@@ -65,10 +63,9 @@ public class EventParticipationController {
             @Validated @RequestBody EventParticipationRequest request) {
         return ResponseEntity.ok(this.eventService.create(request));
     }
-
-    @Operation(summary = "Update a eventParticipation by their id number")
+    @Operation(summary = "Update a reservation")
     @ApiResponse(responseCode = "400", description = "When the request is not valid", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
+        @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
     @PutMapping(path = "/{id}")
     public ResponseEntity<EventParticipationResponse> update(
@@ -76,10 +73,9 @@ public class EventParticipationController {
             @PathVariable Long id) {
         return ResponseEntity.ok(this.eventService.update(request, id));
     }
-
-    @Operation(summary = "Delete a eventParticipation by their id number")
-    @ApiResponse(responseCode = "400", description = "When the id is not valid", content = {
-            @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
+    @Operation(summary = "Delete a reservation")
+    @ApiResponse(responseCode = "400", description = "When the ID is not valid", content = {
+        @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @DeleteMapping(path = "/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
