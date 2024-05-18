@@ -58,6 +58,7 @@ public class EventController {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
   })
   @PostMapping
+  @CrossOrigin("*")
   public ResponseEntity<EventResponse> create(@Validated @RequestBody EventRequest request) {
     return ResponseEntity.ok(this.service.create(request));
   }
@@ -67,6 +68,7 @@ public class EventController {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
   })
   @GetMapping(path = "/{id}")
+  @CrossOrigin("*")
   public ResponseEntity<EventResponse> getById(@PathVariable Long id) {
     return ResponseEntity.ok(this.service.findByIdWithDetails(id));
   }
@@ -76,6 +78,7 @@ public class EventController {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
   })
   @PutMapping(path = "/{id}")
+  @CrossOrigin("*")
   public ResponseEntity<EventResponse> update(@Validated @RequestBody EventRequest request, @PathVariable Long id) {
     return ResponseEntity.ok(this.service.update(request, id));
   }
@@ -85,6 +88,7 @@ public class EventController {
       @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
   })
   @DeleteMapping(path = "/{id}")
+  @CrossOrigin("*")
   public ResponseEntity<Void> delete(@PathVariable Long id) {
     this.service.delete(id);
     return ResponseEntity.ok().build();

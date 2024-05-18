@@ -5,6 +5,7 @@ import java.util.Objects;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,6 +39,7 @@ public class UserController {
     @Operation(summary = "Get the entire user list in a paginated manner")
 
     @GetMapping
+    @CrossOrigin("*")
     public ResponseEntity<Page<UserResponse>> getAll(
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
@@ -53,6 +55,7 @@ public class UserController {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @GetMapping(path = "/{id}")
+    @CrossOrigin("*")
     public ResponseEntity<UserResponse> get(
             @PathVariable String id) {
         return ResponseEntity.ok(this.userService.findByIdWithDetails(id));
@@ -63,6 +66,7 @@ public class UserController {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
     @PostMapping
+    @CrossOrigin("*")
     public ResponseEntity<UserResponse> insert(
             @Validated @RequestBody UserRequest request) {
         return ResponseEntity.ok(this.userService.create(request));
@@ -73,6 +77,7 @@ public class UserController {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorsResponse.class))
     })
     @PutMapping(path = "/{id}")
+    @CrossOrigin("*")
     public ResponseEntity<UserResponse> update(
             @Validated @RequestBody UserRequest request,
             @PathVariable String id) {
@@ -84,6 +89,7 @@ public class UserController {
             @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class))
     })
     @DeleteMapping(path = "/{id}")
+        @CrossOrigin("*")
     public ResponseEntity<Void> delete(@PathVariable String id) {
         this.userService.delete(id);
         return ResponseEntity.noContent().build();
