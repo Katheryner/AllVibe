@@ -134,6 +134,11 @@ El sistema debe permitir a los usuarios:
     • El sistema debe cifrar las contraseñas de los usuarios.
     • El sistema debe almacenar datos de usuarios.
 
+## Diagrama
+
 <p align="center">
     <img src="/image.png">
 </p>
+
+## uml
+![Diagrama](https://github.com/Katheryner/AllVibe/blob/main/Diagrama%20de%20clases.svg)
