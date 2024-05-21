@@ -141,4 +141,4 @@ El sistema debe permitir a los usuarios:
 </p>
 
 ## uml
-![Diagrama](https://github.com/Katheryner/AllVibe/blob/main/Diagrama%20de%20clases.svg)
+![Diagrama](https://github.com/Katheryner/AllVibe/blob/main/classes%20uml.svg)
