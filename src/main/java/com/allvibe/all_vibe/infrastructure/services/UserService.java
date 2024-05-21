@@ -116,9 +116,20 @@ public class UserService implements IUserService {
         return user;
     }
 
+    
     private User findByid(String id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("No users were found with the supplied id."));
     }
+
+    @Override
+    public UserResponse findByidEmail(String id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new BadRequestException("No users were found with the supplied id."));
+
+        return this.userToUserResponse(user);
+    }
+
+
 
 }
