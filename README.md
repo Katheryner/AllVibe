@@ -134,8 +134,6 @@ El sistema debe permitir a los usuarios:
     • El sistema debe cifrar las contraseñas de los usuarios.
     • El sistema debe almacenar datos de usuarios.
 
-![alt text](image.png)
-
 <p align="center">
     <img src="/image.png">
 </p>
