@@ -1,3 +1,48 @@
+# ALL VIBE
+
+## Descripción
+
+Este proyecto es una aplicación de backend para gestionar una base de datos de eventos utilizando Spring Boot, JPA y MySQL. Además, se incluye Swagger para la documentación de la API.
+
+## Requisitos
+
+- Java 17 o superior
+- Maven 3.6.3 o superior
+- MySQL 8.0 o superior
+
+## Instalación
+
+### Paso 1: Clonar el repositorio
+
+`
+git clone https://github.com/Katheryner/AllVibe.git
+cd AllVibe
+`
+
+### Paso 2: Crear database
+
+`
+CREATE DATABASE eventos_db;
+`
+### Paso 3: Configurar src/main/resources/application.properties.
+
+`
+spring.datasource.username=tu-usuario
+spring.datasource.password=tu-contraseña
+`
+
+### Paso 4: Construir y ejercutar proyecto
+
+`
+mvn clean install
+mvn spring-boot:run
+`
+### Paso 5: Documentacion
+
+`
+http://localhost:8080/api/v1/swagger-ui/index.html
+`
+
 ALL VIBE
 
 Versión: Versión 1
