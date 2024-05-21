@@ -22,7 +22,7 @@ cd AllVibe
 ### Paso 2: Crear database
 
 `
-CREATE DATABASE eventos_db;
+CREATE DATABASE events_projects;
 `
 ### Paso 3: Configurar src/main/resources/application.properties.
 
