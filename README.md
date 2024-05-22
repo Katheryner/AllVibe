@@ -144,6 +144,5 @@ El sistema debe permitir a los usuarios:
     <img src="/img/microservicios.png">
 </p>
 
-
 ## uml
 ![Diagrama](https://github.com/Katheryner/AllVibe/blob/main/classes%20uml.svg)
