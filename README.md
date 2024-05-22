@@ -135,5 +135,9 @@ El sistema debe permitir a los usuarios:
     • El sistema debe almacenar datos de usuarios.
 
 <p align="center">
-    <img src="/image.png">
+    <img src="/img/image.png">
+</p>
+
+<p align="center">
+    <img src="/img/microservicios.png">
 </p>
